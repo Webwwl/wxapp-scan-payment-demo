@@ -1,0 +1,5 @@
+<template name="foot">
+  <view class="page-foot">
+    <image class="icon-foot" src="/image/icon_foot.png"></image>
+  </view>
+</template>

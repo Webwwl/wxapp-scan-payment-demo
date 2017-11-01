@@ -1,0 +1,63 @@
+<import src="../../../../common/head.wxml" />
+<import src="../../../../common/foot.wxml" />
+
+<view class="container">
+  <template is="head" data="{{title: '支付参数配置'}}"/>
+
+  <view class="page-body">
+    <view class="page-section">
+      <view class="section">
+        <text class="required">以下为必传字段: </text>
+        <view class="form-group">
+          <label for="appId">appId</label>
+          <input  maxlength="40" placeholder="请输入appId" id="appId" bindblur="bindToParamsRequired"/>
+        </view>
+        <view class="form-group">
+          <label for="mchntid">商户号</label>
+          <input  maxlength="40" placeholder="请输入商户号" id="mchntid" bindblur="bindToParamsRequired"/>
+        </view>
+        <view class="form-group">
+          <label for="inscd">机构号</label>
+          <input  maxlength="40" placeholder="请输入机构号" id="inscd" bindblur="bindToParamsRequired"/>
+        </view>
+        <view class="form-group">
+          <label for="key">key</label>
+          <input  maxlength="40" placeholder="请输入key" id="key" bindblur="bindToParamsRequired"/>
+        </view>
+        <view class="form-group">
+          <label for="backUrl">backUrl</label>
+          <input  maxlength="40" placeholder="请输入backUrl" id="backUrl" bindblur="bindToParamsRequired"/>
+        </view>
+        <view class="form-group">
+          <label for="txamt">支付金额</label>
+          <input  maxlength="40" placeholder="请输入支付金额" id="txamt" type="digit" bindblur="bindToParamsRequired"/>
+        </view>
+      </view>
+      <view class="section">
+        <button class="zan-btn" bindtap="toggleDialog">
+          选择传入的字段
+        </button>
+        <text>  以下为选传字段: </text>
+        <view class="form-group" wx:for="{{optionControls}}" wx:key="item">
+          <label for="{{item}}">{{item}}</label>
+          <input  maxlength="40" placeholder="请输入{{item}}" id="{{item}}" bindblur="bindToParamsRequired"/>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zan-dialog {{ showDialog ? 'zan-dialog--show' : '' }}">
+    <view class="zan-dialog__mask" bindtap="toggleDialog" />
+    <view class="zan-dialog__container">
+      <view style="padding: 30px 0; text-align: center;" class="sim-form-option">
+        <checkbox-group style="margin: auto;" bindchange="checkboxChange">
+          <label class="checkbox" wx:for="{{items}}" wx:key="{{item.value}}">
+            <checkbox value="{{item.name}}" checked="{{item.checked}}"/>
+            <text style="width: 100px; text-align:left;">{{item.value}}</text>
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+  </view>
+
+  <template is="foot" />
+</view>

@@ -1,0 +1,26 @@
+<import src="../../../common/head.wxml" />
+<import src="../../../common/foot.wxml" />
+<import src="../../../common/toptips/index.wxml" />
+
+<view class="container">
+  <template is="head" data="{{title: 'requestPayment'}}"/>
+
+  <view class="page-body">
+    <view>
+      <navigator class="payment-config" url="./payment-config/payment-config">
+        <view>配置支付参数</view>
+      </navigator>
+    </view>
+    <view class="page-section">
+      <view>支付金额</view>
+      <view class="price">{{ txamt|| 0.01}}</view>
+      <view class="desc">可在支付参数中自定义金额</view>
+      <view class="btn-area">
+        <button type="primary" bindtap="requestPayment" loading="{{loading}}">支付</button>
+      </view>
+    </view>
+  </view>
+
+  <template is="foot" />
+  <template is="zan-toptips" data="{{ zanTopTips }}" />
+</view>

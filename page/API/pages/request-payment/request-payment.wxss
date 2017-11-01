@@ -1,0 +1,47 @@
+.page-section{
+  width: auto;
+  margin: 30rpx;
+  padding: 64rpx 30rpx;
+  background-color: #fff;
+  text-align: center;
+  font-size: 28rpx;
+}
+.desc{
+  color: #B2B2B2;
+}
+.price{
+  margin-top: 30rpx;
+  margin-bottom: 25rpx;
+  position: relative;
+  display: inline-block;
+  font-size: 78rpx;
+  line-height: 1;
+}
+.price:before{
+  content: "¥";
+  position: absolute;
+  font-size: 40rpx;
+  top: 8rpx;
+  left: -40rpx;
+}
+.payment-config {
+  margin-left: 15px;
+  color: #1aad19;
+  position: relative;
+}
+
+.navigator-arrow {
+  padding-right: 26rpx;
+  position: relative;
+}
+.navigator-arrow:before {
+  content: " ";
+  display: inline-block;
+  height: 18rpx;
+  width: 18rpx;
+  margin-right: 10rpx;
+  border-width: 2rpx 2rpx 0 0;
+  border-color: #888888;
+  border-style: solid;
+  transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+}
