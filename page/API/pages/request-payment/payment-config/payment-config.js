@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    env: '测试',
     showDialog: false,
     optionControls: [],
     params: {
@@ -21,78 +22,98 @@ Page({
       { name: 'terminalid', value: 'terminalid' }
     ]
   },
+  changeEnv(e) {
+    let switchVal = e.detail.value
+    if (switchVal) {
+      this.setData({
+        env: '生产',
+        'params.env': 'pro'
+      })
+      
+    } else {
+      this.setData({
+        env: '测试',
+        'params.env': 'test'
+      })
+    }
+    
+  },
   bindToParamsRequired(e) {
-    if (e.target.id == 'appId') {
-      this.setData({
-        'params.appId': e.detail.value
-      })
-    }
-    if (e.target.id == 'mchntid') {
-      this.setData({
-        'params.mchntid': e.detail.value
-      })
-    }
-    if (e.target.id == 'inscd') {
-      this.setData({
-        'params.inscd': e.detail.value
-      })
-    }
-    if (e.target.id == 'key') {
-      this.setData({
-        'params.key': e.detail.value
-      })
-    }
-    if (e.target.id == 'backUrl') {
-      this.setData({
-        'params.backUrl': e.detail.value
-      })
-    }
-    if (e.target.id == 'txamt') {
-      this.setData({
-        'params.txamt': e.detail.value
-      })
-    }
-    // 非必传参数...
-    if (e.target.id == 'currency') {
-      this.setData({
-        'params.currency': e.detail.value
-      })
-    }
-    if (e.target.id == 'attach') {
-      this.setData({
-        'params.attach': e.detail.value
-      })
-    }
-    if (e.target.id == 'timeStart') {
-      this.setData({
-        'params.timeStart': e.detail.value
-      })
-    }
-    if (e.target.id == 'timeExpire') {
-      this.setData({
-        'params.timeExpire': e.detail.value
-      })
-    }
-    if (e.target.id == 'subject') {
-      this.setData({
-        'params.subject': e.detail.value
-      })
-    }
-    if (e.target.id == 'outOrderNum') {
-      this.setData({
-        'params.outOrderNum': e.detail.value
-      })
-    }
-    if (e.target.id == 'paylimit') {
-      this.setData({
-        'params.paylimit': e.detail.value
-      })
-    }
-    if (e.target.id == 'terminalid') {
-      this.setData({
-        'params.terminalid': e.detail.value
-      })
-    }
+    let obj = {}
+    let key = `params.${e.target.id}`
+    obj[key] = e.detail.value
+    this.setData(obj)
+    // if (e.target.id == 'appId') {
+    //   this.setData({
+    //     'params.appId': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'mchntid') {
+    //   this.setData({
+    //     'params.mchntid': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'inscd') {
+    //   this.setData({
+    //     'params.inscd': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'key') {
+    //   this.setData({
+    //     'params.key': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'backUrl') {
+    //   this.setData({
+    //     'params.backUrl': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'txamt') {
+    //   this.setData({
+    //     'params.txamt': e.detail.value
+    //   })
+    // }
+    // // 非必传参数...
+    // if (e.target.id == 'currency') {
+    //   this.setData({
+    //     'params.currency': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'attach') {
+    //   this.setData({
+    //     'params.attach': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'timeStart') {
+    //   this.setData({
+    //     'params.timeStart': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'timeExpire') {
+    //   this.setData({
+    //     'params.timeExpire': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'subject') {
+    //   this.setData({
+    //     'params.subject': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'outOrderNum') {
+    //   this.setData({
+    //     'params.outOrderNum': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'paylimit') {
+    //   this.setData({
+    //     'params.paylimit': e.detail.value
+    //   })
+    // }
+    // if (e.target.id == 'terminalid') {
+    //   this.setData({
+    //     'params.terminalid': e.detail.value
+    //   })
+    // }
   },
   checkboxChange(e) {
     this.setData({
@@ -139,7 +160,10 @@ Page({
   onUnload: function () {
   console.log('unload page...')
     const app = getApp()
-    app.globalData.paymentCfg = JSON.parse(JSON.stringify(this.data.params))
+    let paymentCfg = JSON.parse(JSON.stringify(this.data.params))
+    app.globalData.txamt = paymentCfg.txamt
+    delete paymentCfg.txamt
+    app.globalData.paymentCfg = paymentCfg
   },
 
   /**

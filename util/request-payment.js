@@ -1,8 +1,24 @@
-const sessionKeyUrl = require('../config').sessionKeyUrl
-const paymentUrl = require('../config').paymentUrl
 const sha256 = require('./sha256').sha256
 const leftPad = require('./left-pad')
-
+let sessionKeyUrl, paymentUrl
+const pro = {
+  host: 'showmoney.cn',
+  getSessionKeyUrl () {
+    return `https://${this.host}/scanpay/fixed/mpauth`
+  },
+  getPaymentUrl () {
+    return `https://${this.host}/scanpay/unified`
+  }
+}
+const test = {
+  host: 'qrcode.ipay.so',
+  getSessionKeyUrl() {
+    return `https://${this.host}/scanpay/fixed/mpauth`
+  },
+  getPaymentUrl() {
+    return `https://${this.host}/scanpay/unified`
+  }
+}
 function produceSign(params, key, debug) {
   const result = Object.keys(params).sort().map((key) => {
     return `${key}=${params[key]}`
@@ -35,6 +51,14 @@ function isNumber(value) {
 }
 
 function requestPayment({ appId, mchntid, inscd, key, backUrl, ...rest }, txamt, callback, debug) {
+  // 判断当前环境
+  if (rest.env == 'test') {
+    sessionKeyUrl = test.getSessionKeyUrl()
+    paymentUrl = test.getPaymentUrl()
+  } else {
+    sessionKeyUrl = pro.getSessionKeyUrl()
+    paymentUrl = pro.getPaymentUrl()
+  }
   // 回调
   const noop = function () {}
   const success = (callback && callback.succuss) || noop

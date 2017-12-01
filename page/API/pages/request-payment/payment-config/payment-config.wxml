@@ -7,10 +7,19 @@
   <view class="page-body">
     <view class="page-section">
       <view class="section">
-        <text class="required">以下为必传字段: </text>
+        <view class='title'>
+          <text class="required">以下为必传字段: </text>
+          <switch bindchange="changeEnv">
+            <text>{{ env }}</text>
+          </switch>
+        </view>
         <view class="form-group">
           <label for="appId">appId</label>
           <input  maxlength="40" placeholder="请输入appId" id="appId" bindblur="bindToParamsRequired"/>
+        </view>
+        <view class="form-group">
+          <label for="appId">subappId</label>
+          <input  maxlength="40" placeholder="请输入subappid" id="subappid" bindblur="bindToParamsRequired"/>
         </view>
         <view class="form-group">
           <label for="mchntid">商户号</label>
