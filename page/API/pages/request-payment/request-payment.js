@@ -32,7 +32,7 @@ Page(Object.assign({}, Zan.TopTips, {
     })
     let txamt = app.globalData.txamt || '0.01'
     let cfg = {
-      appId: 'wx128cafdde043a802',
+      subappid: 'wx128cafdde043a802',
       mchntid: '013102153990001',
       inscd: '10130001',
       key: 'ed4da89d03304b372012d1bc9410bc28',
@@ -41,7 +41,7 @@ Page(Object.assign({}, Zan.TopTips, {
       subject: '黄金AK47',
       env: 'test'
     }
-    Object.assign(cfg, globalCfg, { appId: 'wx128cafdde043a802' })
+    Object.assign(cfg, globalCfg, { subappid: 'wx128cafdde043a802' })
     console.log(cfg, globalCfg)
     try {
       requestPayment(cfg, txamt, {
@@ -59,6 +59,7 @@ Page(Object.assign({}, Zan.TopTips, {
         }
       }, true)
     } catch (e) {
+      console.log(e)
       self.showZanTopTips(e);
     }
   }

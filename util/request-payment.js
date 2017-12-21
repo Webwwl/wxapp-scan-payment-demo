@@ -50,7 +50,7 @@ function isNumber(value) {
   return false
 }
 
-function requestPayment({ appId, mchntid, inscd, key, backUrl, ...rest }, txamt, callback, debug) {
+function requestPayment({ subappid, mchntid, inscd, key, backUrl, ...rest }, txamt, callback, debug) {
   // 判断当前环境
   if (rest.env == 'test') {
     sessionKeyUrl = test.getSessionKeyUrl()
@@ -59,12 +59,18 @@ function requestPayment({ appId, mchntid, inscd, key, backUrl, ...rest }, txamt,
     sessionKeyUrl = pro.getSessionKeyUrl()
     paymentUrl = pro.getPaymentUrl()
   }
+  delete rest.env
   // 回调
   const noop = function () {}
   const success = (callback && callback.succuss) || noop
   const fail = (callback && callback.fail) || noop
   const complete = (callback && callback.complete) || noop
-  appId = appId.trim()
+  if (!subappid) throw new Error('subappid不存在!')
+  if (!mchntid) throw new Error('mchntid不存在!')
+  if (!inscd) throw new Error('inscd不存在!')
+  if (!key) throw new Error('key不存在!')
+  if (!txamt) throw new Error('请输入支付金额')
+  subappid = subappid.trim()
   mchntid = mchntid.trim()
   inscd = inscd.trim()
   key = key.trim()
@@ -88,26 +94,22 @@ function requestPayment({ appId, mchntid, inscd, key, backUrl, ...rest }, txamt,
     txndir: 'Q',
     busicd: 'WXAU',
     chcd: 'WXP',
-    version: '2.2',
+    version: '2.3',
     signType: 'SHA256'
   }
   const params2 = {
     txndir: 'Q',
     busicd: 'WXMP',
     chcd: 'WXP',
-    version: '2.2',
+    version: '2.3',
     signType: 'SHA256',
     charset: 'utf-8',
   }
-  if (!appId) throw new Error('appId不存在!')
-  if (!mchntid) throw new Error('mchntid不存在!')
-  if (!inscd) throw new Error('inscd不存在!')
-  if (!key) throw new Error('key不存在!')
-  if (!txamt) throw new Error('请输入支付金额')
+  
   wx.login({
     success: function (data) {
       const jsCode = data.code
-      Object.assign(params1, { appId, mchntid, inscd, jsCode })
+      Object.assign(params1, { subappid, mchntid, inscd, jsCode })
       const sign1 = produceSign(params1, key, debug)
       let reqData = Object.assign(params1, { sign: sign1 })
       wx.request({
@@ -118,7 +120,7 @@ function requestPayment({ appId, mchntid, inscd, key, backUrl, ...rest }, txamt,
           const data = res.data
           const sessionKey = data.sessionKey
           if (sessionKey) {
-            Object.assign(params2, { wxAppId: appId, mchntid, inscd, sessionKey, backUrl, txamt, orderNum: produceOrderNum(mchntid) }, rest || {})
+            Object.assign(params2, { subappid, mchntid, inscd, sessionKey, backUrl, txamt, orderNum: produceOrderNum(mchntid) }, rest || {})
             const sign2 = produceSign(params2, key, debug)
             reqData = Object.assign(params2, { sign: sign2 })
             wx.request({
